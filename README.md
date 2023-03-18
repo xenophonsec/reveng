@@ -27,7 +27,7 @@ Usage:
 
 Options: 
   -f, --file FILE        The malware to reverse engineer
-  -o, --out [DIR]        The output directory (Default is .)
+  -o, --out [DIR]        The output directory (Default is decoded)
   -w, --warrenty BOOL    Show warrenty
   -c, --conditions BOOL  The output directory
   -v, --version          Display the current version

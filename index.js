@@ -47,7 +47,7 @@ cli.enable('version')
 
 const options = cli.parse({
     file: [ 'f', 'The malware to reverse engineer', 'file'],
-    out: [ 'o', 'The output directory', 'dir', '.' ],
+    out: [ 'o', 'The output directory', 'dir', 'decoded' ],
     warrenty: [ 'w', 'Show warrenty', 'bool'],
     conditions: [ 'c', 'The output directory', 'bool'],
 });
@@ -86,7 +86,18 @@ if (escapedStringsExist(malwareCode)) {
   console.log("Detected escaped data");
   decodeStrings(malwareCode);
 }
-handleScripts(malwareCode);
+if (isHTML(malwareCode)) {
+  cleanedFilename = path.join(outpath, "cleanedup"+detectFileType(malwareCode))
+  cleanedCode = pretty(malwareCode)
+  fs.writeFileSync(
+    cleanedFilename,
+    cleanedCode,
+    { encoding: "utf-8" }
+  );
+  handleScripts(cleanedCode, cleanedFilename);
+
+}
+
 
 function decodeStrings(str) {
   let strings = str.match(/unescape\s*\(\'[^\)]*/g);
@@ -128,9 +139,12 @@ function decodeStrings(str) {
 function handleScripts (codeStr,fileName) {
     if (containsScripts(codeStr)) {
         let scripts = extractScripts(codeStr);
+        // if there are script tags
         if (scripts != null) {
+          // loop through them
           for (let i = 0; i < scripts.length; i++) {
             let script = scripts[i];
+            // strip script tags
             script = script
               .replace(/<script.*?>/gi, "")
               .replace(/<\/script>/gi, "");
@@ -157,7 +171,7 @@ function handleScripts (codeStr,fileName) {
                           );
                         } else {
                           if (retries < 5) {
-                            console.log(fileName, "file blocked");
+                            console.log("cannot write to file",fileName,". File is busy or does not exist.");
                           setTimeout(save, Math.floor(Math.random()*1000));
                           retries++
                           } else {
