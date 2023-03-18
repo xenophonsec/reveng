@@ -1,0 +1,30 @@
+{
+  "name": "@xenophonsec/reveng",
+  "version": "1.0.0",
+  "description": "Reverse Engineer HTML malware",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cli": "^1.0.1",
+    "deobfuscator": "^2.4.1",
+    "pretty": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xenophonsec/reveng.git"
+  },
+  "keywords": [
+    "rerverse",
+    "engineer",
+    "malware",
+    "html"
+  ],
+  "author": "XenophonSec",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/xenophonsec/reveng/issues"
+  },
+  "homepage": "https://github.com/xenophonsec/reveng#readme"
+}
